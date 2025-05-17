@@ -2,21 +2,7 @@ import logging
 import subprocess
 from concurrent.futures import ThreadPoolExecutor
 
-import functools
-from PyQt5 import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5 import QtCore
-from PyQt5 import QtGui
-from PyQt5 import QtWidgets
-from qtpy import *
-from qfluentwidgets import *
-from qfluentwidgets.components.material import *
-from qfluentwidgets import FluentIcon as FIF
-
 import zbToolLib as zb
-import zbWidgetLib as zbw
 from qtpy import *
 
 
@@ -26,7 +12,7 @@ class Program:
     """
     NAME = "zb的应用程序模板"  # 程序名称
     VERSION = "0.0.0"  # 程序版本
-    CORE_VERSION="5.3.0"
+    CORE_VERSION = "5.3.0"
     TITLE = f"{NAME} {VERSION}"  # 程序标题
     URL = "https://ianzb.github.io/project/zbGuiTemplate.html"  # 程序网址
     LICENSE = "GPLv3"  # 程序许可协议
