@@ -1,3 +1,5 @@
+import webbrowser
+
 from .widget import *
 
 
@@ -116,7 +118,7 @@ class AboutSettingCard(SettingCard):
     """
 
     def __init__(self, parent=None):
-        super().__init__(FIF.INFO, "关于", f"{program.INFO}\n当前版本 {program.VERSION}", parent)
+        super().__init__(FIF.INFO, "关于", f"{program.INFO}\n程序版本 {program.VERSION} Powered by zbGuiTemplate {program.CORE_VERSION}", parent)
         self.button1 = HyperlinkButton(program.URL, "程序官网", self, FIF.LINK)
         self.button1.setToolTip("打开程序官网")
         self.button1.installEventFilter(ToolTipFilter(self.button1, 1000))
