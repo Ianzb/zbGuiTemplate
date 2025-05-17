@@ -296,19 +296,11 @@ class SettingPage(zbw.BasicPage):
         self.colorSettingCard = ColorSettingCard(self)
         self.micaEffectSettingCard = MicaEffectSettingCard(self)
 
-        self.startupSettingCard = StartupSettingCard(self)
-        self.traySettingCard = TraySettingCard(self)
-        self.hideSettingCard = HideSettingCard(self)
-
         self.downloadSettingCard = DownloadSettingCard(self)
 
         self.cardGroup1.addCard(self.themeSettingCard, "themeSettingCard")
         self.cardGroup1.addCard(self.colorSettingCard, "colorSettingCard")
         self.cardGroup1.addCard(self.micaEffectSettingCard, "micaEffectSettingCard")
-
-        self.cardGroup2.addCard(self.startupSettingCard, "startupSettingCard")
-        self.cardGroup2.addCard(self.traySettingCard, "traySettingCard")
-        self.cardGroup2.addCard(self.hideSettingCard, "hideSettingCard")
 
         self.cardGroup3.addCard(self.downloadSettingCard, "downloadSettingCard")
 

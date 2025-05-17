@@ -1,7 +1,7 @@
 from .interface import *
 
 
-class Window(zbw.window):
+class Window(zbw.Window):
     """
     主窗口
     """
@@ -10,21 +10,15 @@ class Window(zbw.window):
         super().__init__()
 
         # 托盘组件
-        self.tray = Tray(self)
 
         self.mainPage = MainPage(self)
         self.settingPage = SettingPage(self)
         self.aboutPage = AboutPage(self)
-
-        self.addPage(self.mainPage, "top")
+        self.addPage(self.mainPage, self.mainPage.title(), self.mainPage.icon(), "top")
         self.addSeparator("top")
         self.addSeparator("bottom")
-        self.addPage(self.settingPage, "bottom")
-        self.addPage(self.aboutPage, "bottom")
-
-        self.addAddonEvent.connect(self.addAddon)
-        self.removeAddonEvent.connect(self.removeAddon)
-        self.downloadAddonFailedSignal.connect(self.__downloadAddonFailed)
+        self.addPage(self.settingPage, self.settingPage.title(), self.settingPage.icon(), "bottom")
+        self.addPage(self.aboutPage, self.aboutPage.title(), self.aboutPage.icon(), "bottom")
 
         # 外观调整
         self.navigationInterface.setAcrylicEnabled(True)
@@ -63,21 +57,6 @@ class Window(zbw.window):
             self.hide()
         else:
             program.close()
-
-    def addPage(self, page, pos: str):
-        """
-        添加导航栏页面简易版
-        @param page: 页面对象
-        @param pos: 位置top/scroll/bottom
-        """
-        return self.addSubInterface(page, page.getIcon(), page.objectName(), eval(f"NavigationItemPosition.{pos.upper()}"))
-
-    def addSeparator(self, pos: str):
-        """
-        添加导航栏分割线简易版
-        @param pos: 位置top/scroll/bottom
-        """
-        self.navigationInterface.addSeparator(eval(f"NavigationItemPosition.{pos.upper()}"))
 
 
 logging.debug("程序主窗口类初始化成功！")
