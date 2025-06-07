@@ -26,7 +26,7 @@ class Program:
     """
     NAME = "zb的应用程序模板"  # 程序名称
     VERSION = "0.0.0"  # 程序版本
-    CORE_VERSION = "5.3.1" # 内核版本
+    CORE_VERSION = "5.3.2" # 内核版本
     TITLE = f"{NAME} {VERSION}"  # 程序标题
     URL = "https://ianzb.github.io/project/zbGuiTemplate.html"  # 程序网址
     LICENSE = "GPLv3"  # 程序许可协议
@@ -43,7 +43,7 @@ class Program:
     MAIN_FILE_NAME = zb.getFileName(MAIN_FILE_PATH)  # 当前程序文件名称
     INSTALL_PATH = zb.getFileDir(MAIN_FILE_PATH)  # 程序安装路径
     SOURCE_PATH = r"source\img"  # 程序资源文件路径
-    PROGRAM_PID = os.getpid()  # 程序pid
+    PID = os.getpid()  # 程序pid
     DATA_PATH = zb.joinPath(zb.USER_PATH, "zb")  # 程序数据路径
     SETTING_FILE_PATH = zb.joinPath(DATA_PATH, "settings.json")  # 程序设置文件路径
     LOGGING_FILE_PATH = zb.joinPath(DATA_PATH, "logging.log")  # 程序日志文件路径
