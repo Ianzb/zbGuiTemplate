@@ -30,7 +30,7 @@ class Program:
     TITLE = f"{NAME} {VERSION}"  # 程序标题
     URL = "https://ianzb.github.io/project/zbGuiTemplate.html"  # 程序网址
     LICENSE = "GPLv3"  # 程序许可协议
-    INFO = "© 2022-2025 Ianzb. GPLv3 License."
+    INFO = "© 2025 Ianzb. GPLv3 License."
     # UPDATE_URL = "http://123pan.ianzb.cn/Code/zbGuiTemplate/index.json"  # 更新网址
     # UPDATE_INSTALLER_URL = "http://123pan.ianzb.cn/Code/zbGuiTemplate/zbGuiTemplate_setup.exe"  # 更新安装包链接
     UNINSTALL_FILE = "unins000.exe"  # 卸载程序名称
