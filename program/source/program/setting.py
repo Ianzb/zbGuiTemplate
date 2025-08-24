@@ -28,7 +28,7 @@ class SettingFunctions(QObject):
         @param name: 选项名称
         @return: 选项内容
         """
-        self.read(name)
+        return self.read(name)
 
     def read(self, name: str):
         """
