@@ -57,7 +57,7 @@ class SettingFunctions(QObject):
         @param name: 选项名称
         @param data: 选项数据
         """
-        self.set(name, data)
+        self.save(name, data)
 
     def save(self, name: str, data):
         """
