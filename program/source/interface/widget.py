@@ -2,9 +2,12 @@ import webbrowser
 
 from ..program import *
 
+
 class ErrorMessageBox(zbw.ScrollMessageBox):
     def __init__(self, title: str, content: str, parent=None):
         super().__init__(title, content, parent)
+        logging.error(content)
+
         self.contentLabel.setSelectable()
         self.cancelButton.setText("关闭")
         self.yesButton.hide()
