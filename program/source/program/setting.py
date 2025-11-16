@@ -7,12 +7,8 @@ class SettingFunctions(QObject):
     """
     DEFAULT_SETTING = {"theme": "Theme.AUTO",
                        "themeColor": "default",
-                       "autoHide": True,
                        "downloadPath": zb.DOWNLOAD_PATH(),
-                       "showWindow": False,
-                       "micaEffect": True,
-                       "showTray": True,
-                       "hideWhenClose": True,
+                       "windowEffect": "Mica",
                        }
     changeSignal = pyqtSignal(str)
     errorState = False  # 错误信息
