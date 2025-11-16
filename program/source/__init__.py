@@ -46,15 +46,6 @@ class Window(zbw.Window):
         errorMessageBox = ErrorMessageBox("程序发生错误", "\n".join(traceback.format_exception(exc_type, exc_value, exc_traceback)), self)
         errorMessageBox.show()
 
-    def keyPressEvent(self, QKeyEvent):
-        """
-        自定义按键事件
-        """
-        # Esc键
-        if QKeyEvent.key() == Qt.Key.Key_Escape:
-            if setting.read("hideWhenClose"):
-                self.hide()
-
     def closeEvent(self, QCloseEvent):
         """
         自定义关闭事件
