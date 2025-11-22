@@ -4,14 +4,13 @@ import traceback
 from concurrent.futures import ThreadPoolExecutor
 
 import functools
-from PyQt5 import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
-from PyQt5 import QtCore
-from PyQt5 import QtGui
-from PyQt5 import QtWidgets
 from qtpy import *
+from qtpy.QtCore import *
+from qtpy.QtGui import *
+from qtpy.QtWidgets import *
+from qtpy import QtCore
+from qtpy import QtGui
+from qtpy import QtWidgets
 from qfluentwidgets import *
 from qfluentwidgets.components.material import *
 from qfluentwidgets import FluentIcon as FIF
@@ -19,7 +18,11 @@ from qfluentwidgets import FluentIcon as FIF
 import zbToolLib as zb
 import zbWidgetLib as zbw
 from zbWidgetLib import ZBF
-from qtpy import *
+
+try:
+    pyqtSignal = Signal
+except NameError:
+    Signal = pyqtSignal
 
 
 class Program:
@@ -28,8 +31,8 @@ class Program:
     """
     NAME = "zb的应用程序模板"  # 程序名称
     VERSION = "0.0.0"  # 程序版本
-    VERSION_CODE = 7  # 版本序数
-    CORE_VERSION = "5.4.0"  # 内核版本
+    VERSION_CODE = 8  # 版本序数
+    CORE_VERSION = "5.4.1"  # 内核版本
     TITLE = f"{NAME} {VERSION}"  # 程序标题
     URL = "https://ianzb.github.io/project/zbGuiTemplate.html"  # 程序网址
     LICENSE = "GPLv3"  # 程序许可协议
@@ -69,6 +72,10 @@ class Program:
         # 打包后资源路径切换
         if self.isExe:
             self.SOURCE_PATH = sys._MEIPASS + r"\img"
+
+        # 导入自定义图标
+        ZBF.setPath(self.source("icons"))
+        ZBF.addFromPath(self.source("icons"))
 
     @property
     def ICON(self):
