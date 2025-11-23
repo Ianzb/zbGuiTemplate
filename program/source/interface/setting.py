@@ -303,7 +303,6 @@ class DownloadSettingCard(SettingCard):
         self.hBoxLayout.addSpacing(16)
 
         self.setAcceptDrops(True)
-        self.setText()
         setting.connect(self.setEvent)
 
     def setText(self):
