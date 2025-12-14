@@ -5,6 +5,7 @@ import zbToolLib as zb
 NAME = "zbGuiTemplate"
 LOG_INDEX = ""
 IS_SINGLE_FILE = True
+IS_SETUP = True
 EXTRA_FILES = []
 
 ROOT = zb.getFileDir(zb.getFileDir(sys.argv[0]))
