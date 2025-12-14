@@ -31,8 +31,8 @@ class Program:
     """
     NAME = "zb的应用程序模板"  # 程序名称
     VERSION = "0.0.0"  # 程序版本
-    VERSION_CODE = 9  # 版本序数
-    CORE_VERSION = "5.4.2"  # 内核版本
+    VERSION_CODE = 10  # 版本序数
+    CORE_VERSION = "5.5.0"  # 内核版本
     TITLE = f"{NAME} {VERSION}"  # 程序标题
     URL = "https://ianzb.github.io/project/zbGuiTemplate.html"  # 程序网址
     LICENSE = "GPLv3"  # 程序许可协议
@@ -48,7 +48,7 @@ class Program:
     MAIN_FILE_PATH = sys.argv[0]  # 程序主文件路径
     MAIN_FILE_NAME = zb.getFileName(MAIN_FILE_PATH)  # 当前程序文件名称
     INSTALL_PATH = zb.getFileDir(MAIN_FILE_PATH)  # 程序安装路径
-    SOURCE_PATH = r"source\img"  # 程序资源文件路径
+    RESOURCE_PATH = "resource"  # 程序资源文件路径
     PID = os.getpid()  # 程序pid
     DATA_PATH = zb.joinPath(zb.USER_PATH, "zb")  # 程序数据路径
     SETTING_FILE_PATH = zb.joinPath(DATA_PATH, "settings.json")  # 程序设置文件路径
@@ -71,15 +71,15 @@ class Program:
 
         # 打包后资源路径切换
         if self.isExe:
-            self.SOURCE_PATH = sys._MEIPASS + r"\img"
+            self.RESOURCE_PATH = sys._MEIPASS + "/resource"
 
         # 导入自定义图标
-        ZBF.setPath(self.source("icons"))
-        ZBF.addFromPath(self.source("icons"))
+        ZBF.setPath(self.resource("icons"))
+        ZBF.addFromPath(self.resource("icons"))
 
     @property
     def ICON(self):
-        return program.source("program.png")
+        return program.resource("program.png")
 
     @property
     def isStartup(self):
@@ -97,13 +97,13 @@ class Program:
         """
         return ".exe" in self.MAIN_FILE_NAME
 
-    def source(self, *args):
+    def resource(self, *args):
         """
         快捷获取程序资源文件路径
         @param name: 文件名
         @return: 文件路径
         """
-        return zb.joinPath(self.SOURCE_PATH, *args)
+        return zb.joinPath(self.RESOURCE_PATH, *args)
 
     def cache(self, *args):
         """
