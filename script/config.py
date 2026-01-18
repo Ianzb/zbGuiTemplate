@@ -20,3 +20,4 @@ INDEX_JSON = zb.joinPath(ROOT, "index.json")
 INDEX_HTML = zb.joinPath(ROOT, "index.html")
 REQUIREMENTS = zb.joinPath(ROOT, "requirements.txt")
 BUILD_PATH = zb.joinPath(ROOT, "build")
+SPEC_PATH=""
