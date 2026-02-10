@@ -31,7 +31,7 @@ class Program:
     """
     NAME = "zb的应用程序模板"  # 程序名称
     VERSION = "0.0.0"  # 程序版本
-    VERSION_CODE = 13  # 版本序数
+    VERSION_CODE = 14  # 版本序数
     CORE_VERSION = "5.5.4"  # 内核版本
     TITLE = f"{NAME} {VERSION}"  # 程序标题
     URL = "https://ianzb.github.io/project/zbGuiTemplate.html"  # 程序网址
