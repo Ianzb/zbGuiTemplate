@@ -8,7 +8,7 @@ LOG_INDEX = ""
 IS_SINGLE_FILE = True
 IS_SETUP = True
 EXTRA_FILES = []
-EXTRA_LIBS = []
+EXTRA_LIBS = ["zbWidgetLib"]
 
 ROOT = os.path.abspath((zb.getFileDir(zb.getFileDir(sys.argv[0]))))
 CODE_PATH = zb.joinPath(ROOT, NAME)
