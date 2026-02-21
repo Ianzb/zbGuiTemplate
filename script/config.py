@@ -7,6 +7,7 @@ NAME = "zbGuiTemplate"
 LOG_INDEX = ""
 IS_SINGLE_FILE = True
 IS_SETUP = True
+USE_NUITKA = True
 EXTRA_FILES = []
 EXTRA_LIBS = ["zbWidgetLib"]
 

@@ -68,22 +68,33 @@ def extract_release_notes():
     return last
 
 
-def run_pyinstaller():
+def compile_exe():
     zb.deletePath(BUILD_PATH)
     zb.createDir(BUILD_PATH)
-    cmd = [sys.executable, "-m", "PyInstaller", SPEC_PATH,
-           "--distpath", BUILD_PATH, "--workpath", zb.joinPath(BUILD_PATH, "build"),
-           "--clean", "-y"
-           ]
+    if USE_NUITKA:
+        cmd = [sys.executable, "-m", "nuitka", "--clang", "--assume-yes-for-downloads", "--show-progress", f"--force-stdout-spec={zb.joinPath(zb.TEMP_PATH, NAME + ".log")}", f"--force-stderr-spec={zb.joinPath(zb.TEMP_PATH, NAME + ".log")}",
+               "--standalone", "--windows-console-mode=disable", "--enable-plugin=pyside6", *[f"--include-package={i}" for i in EXTRA_LIBS],
+               "--remove-output", f"--output-dir={BUILD_PATH}", "--follow-imports", "--show-scons", f"--windows-icon-from-ico={ICON_PATH}",
+               f"--output-folder-name={NAME}", f"--output-filename={NAME}" + (" --onefile" if IS_SINGLE_FILE else ""),
+               f"--include-data-dir={RESOURCE_PATH}={zb.getFileName(RESOURCE_PATH)}", MAIN_PYW
+               ]
+    else:
+        cmd = [sys.executable, "-m", "PyInstaller", SPEC_PATH,
+               "--distpath", BUILD_PATH, "--workpath", zb.joinPath(BUILD_PATH, "build"),
+               "--clean", "-y"
+               ]
+
     print("CMD:", " ".join(cmd))
     subprocess.check_call(cmd)
+    if USE_NUITKA:
+        zb.movePath(zb.joinPath(BUILD_PATH, f"{NAME}.dist"), zb.joinPath(BUILD_PATH, NAME))
+    zb.deletePath(zb.joinPath(BUILD_PATH, NAME, NAME + ".pdb"))
     print("打包完成")
 
 
 def make_zip(version: str):
     print(f"正在压缩...")
-    zip_path = shutil.make_archive(zb.joinPath(ROOT, f"{NAME}_{version}"), "zip", root_dir=zb.joinPath(BUILD_PATH, NAME))
-    zb.copyPath(zip_path, zb.joinPath(BUILD_PATH, NAME, zb.getFileName(zip_path)))
+    zip_path = shutil.make_archive(zb.joinPath(ROOT, f"{NAME}"), "zip", root_dir=zb.joinPath(BUILD_PATH, NAME))
     print(f"压缩完成！")
     return zip_path
 
@@ -105,7 +116,7 @@ def copy_extra_files():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-v", "--version", required=True, help="版本号")
+    parser.add_argument("-v", "--version", required=False, help="版本号")
     args = parser.parse_args()
     version = args.version
 
@@ -114,6 +125,8 @@ if __name__ == "__main__":
     # 获取当前版本和版本代码
     current_version = get_current_version()
     current_version_code = get_current_version_code()
+    if not version:
+        version = current_version
 
     # 如果版本号发生变化，则增加版本代码
     if current_version != version:
@@ -128,10 +141,10 @@ if __name__ == "__main__":
     if IS_SETUP:
         replace_version_in_setup(version)
 
-    run_pyinstaller()
+    compile_exe()
     if IS_SINGLE_FILE:
-        zip_path = zb.joinPath(BUILD_PATH, f"{NAME}.exe")
-        zb.copyPath(zip_path, zb.joinPath(ROOT, f"{NAME}_{version}.exe"))
+        zb.copyPath(zb.joinPath(BUILD_PATH, f"{NAME}.exe"), zb.joinPath(ROOT, f"{NAME}.exe"))
+        zip_path = zb.joinPath(ROOT, f"{NAME}.exe")
     else:
         copy_extra_files()
         zip_path = make_zip(version)
@@ -140,8 +153,10 @@ if __name__ == "__main__":
         "version": version,
         "version_code": new_version_code,
         "release_notes": release_notes,
-        "output": zip_path
+        "output": zip_path,
+        "build_path": zb.joinPath(BUILD_PATH, NAME),
     }
 
     out_path = zb.joinPath(ROOT, "script", "release_output.json")
+    print("打包结果：", out)
     write_text(out_path, json.dumps(out, ensure_ascii=False, indent=4))

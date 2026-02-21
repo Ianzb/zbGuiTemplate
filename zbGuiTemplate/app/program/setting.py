@@ -7,7 +7,7 @@ class SettingFunctions(QObject):
     """
     DEFAULT_SETTING = {"theme": "Theme.AUTO",
                        "themeColor": "default",
-                       "downloadPath": zb.DOWNLOAD_PATH(),
+                       "downloadPath": zb.DOWNLOAD_PATH,
                        "windowEffect": "Mica",
                        }
     changeSignal = pyqtSignal(str)

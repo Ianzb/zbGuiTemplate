@@ -54,7 +54,7 @@ jobs:
         run: |
           $inputVersion = "${{ github.event.inputs.version }}"
           if ([string]::IsNullOrEmpty($inputVersion)) {
-            Write-Host "未指定版本号，使用 index.json 中的版本"
+            Write-Host "未指定版本号，使用 index.json 版本"
             python script\release_build.py -v "${{ steps.read_index.outputs.version }}"
           } else {
             Write-Host "使用指定版本号: $inputVersion"
@@ -94,7 +94,7 @@ jobs:
             git commit -m "Update version to ${{ steps.read_new_index.outputs.version }} (code ${{ steps.check_output.outputs.version_code }}) [ci skip]"
             git push origin main
           } else {
-            Write-Host "无版本变更，无需提交"
+            Write-Host "无版本变更"
           }
 
       - name: 发布 GitHub Release
@@ -103,7 +103,7 @@ jobs:
           name: ${{ steps.read_new_index.outputs.version }}
           tag_name: ${{ steps.read_new_index.outputs.version }}
           files: |
-            ${{ env.PROGRAM_NAME }}_${{ steps.read_new_index.outputs.version }}.zip
+            ${{ env.PROGRAM_NAME }}_${{ steps.read_new_index.outputs.version }}_arm64.zip
           body: ${{ steps.check_output.outputs.notes }}
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: false
