@@ -51,6 +51,15 @@ def replace_index_json(version: str, version_code: int):
     print("已修改index.json版本号！")
 
 
+def replace_pyproject_toml(version: str):
+    import toml
+    data = toml.load(PYPROJECT_TOML)
+    data["project"]["version"] = version
+    with open(PYPROJECT_TOML, "w", encoding="utf-8") as file:
+        toml.dump(data, file)
+    print("已修改pyproject.toml版本号！")
+
+
 def extract_release_notes():
     html = read_text(INDEX_HTML)
     if LOG_INDEX:
@@ -71,23 +80,16 @@ def extract_release_notes():
 def compile_exe():
     zb.deletePath(BUILD_PATH)
     zb.createDir(BUILD_PATH)
-    if USE_NUITKA:
-        cmd = [sys.executable, "-m", "nuitka", "--clang", "--assume-yes-for-downloads", "--show-progress",
-               "--standalone", "--windows-console-mode=disable", "--enable-plugin=pyside6", *[f"--include-package={i}" for i in EXTRA_LIBS], *[f"--include-package-data={i}" for i in EXTRA_LIBS],
-               "--remove-output", f"--output-dir={BUILD_PATH}", "--follow-imports", "--show-scons", f"--windows-icon-from-ico={ICON_PATH}",
-               f"--output-folder-name={NAME}", f"--output-filename={NAME}" + (" --onefile" if IS_SINGLE_FILE else ""),
-               f"--include-data-dir={RESOURCE_PATH}={zb.getFileName(RESOURCE_PATH)}", MAIN_PYW
-               ]
-    else:
-        cmd = [sys.executable, "-m", "PyInstaller", SPEC_PATH,
-               "--distpath", BUILD_PATH, "--workpath", zb.joinPath(BUILD_PATH, "build"),
-               "--clean", "-y"
-               ]
+    cmd = [sys.executable, "-m", "nuitka", "--clang", "--assume-yes-for-downloads", "--show-progress",
+           "--standalone", "--windows-console-mode=disable", "--enable-plugin=pyside6", *[f"--include-package={i}" for i in EXTRA_LIBS], *[f"--include-package-data={i}" for i in EXTRA_LIBS],
+           "--remove-output", f"--output-dir={BUILD_PATH}", "--follow-imports", "--show-scons", f"--windows-icon-from-ico={ICON_PATH}",
+           f"--output-folder-name={NAME}", f"--output-filename={NAME}" + (" --onefile" if IS_SINGLE_FILE else ""),
+           f"--include-data-dir={RESOURCE_PATH}={zb.getFileName(RESOURCE_PATH)}", MAIN_PYW
+           ]
 
     print("CMD:", " ".join(cmd))
     subprocess.check_call(cmd)
-    if USE_NUITKA:
-        zb.movePath(zb.joinPath(BUILD_PATH, f"{NAME}.dist"), zb.joinPath(BUILD_PATH, NAME))
+    zb.movePath(zb.joinPath(BUILD_PATH, f"{NAME}.dist"), zb.joinPath(BUILD_PATH, NAME))
     zb.deletePath(zb.joinPath(BUILD_PATH, NAME, NAME + ".pdb"))
     print("打包完成")
 
@@ -138,6 +140,7 @@ if __name__ == "__main__":
 
     replace_index_json(version, new_version_code)
     replace_version_in_program(version, new_version_code)
+    replace_pyproject_toml(version)
     if IS_SETUP:
         replace_version_in_setup(version)
 

@@ -2,12 +2,12 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "zb的应用程序模板"
+#define MyAppProjectName "zbGuiTemplate"
 #define MyAppVersion "0.0.0"
 #define MyAppPublisher "Ianzb"
 #define MyAppURL "https://ianzb.github.io/"
-#define MyAppExeName "zbGuiTemplate.exe"
+#define MyAppExeName MyAppProjectName + ".exe"
 #define MyAppAssocName MyAppName + "插件"
-#define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -20,7 +20,7 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName=C:\Program Files\zbGuiTemplate
+DefaultDirName=C:\Program Files\{#MyAppProjectName}
 ChangesAssociations=yes
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
@@ -28,32 +28,27 @@ LicenseFile=..\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
-OutputDir=..\build\zbGuiTemplate
-OutputBaseFilename=zbGuiTemplate_setup
-SetupIconFile=..\program\source\img\program.ico
+OutputDir=..\
+OutputBaseFilename={#MyAppProjectName}_{#MyAppVersion}_setup
+SetupIconFile=..\{#MyAppProjectName}\resource\program.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
 
 [Languages]
-Name: "chinesesimplified"; MessagesFile: "compiler:Languages\ChineseSimplified.isl"
+Name: "chinesesimplified"; MessagesFile: "ChineseSimplified.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "创建桌面快捷方式";  Flags: unchecked
 Name: "startupicon"; Description: "开机自启动"; Flags: unchecked
 
 [Files]
-Source: "..\build\zbGuiTemplate\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\build\zbGuiTemplate\source\*"; DestDir: "{app}\source"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "..\build\{#MyAppProjectName}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
-; Root: HKA; Subkey: "Software\Classes\{#MyAppAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppAssocName}"; Flags: uninsdeletekey
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
-Root: HKA; Subkey: "Software\Classes\{#MyAppAssocKey}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
 Root: HKA; Subkey: "Software\Classes\Applications\{#MyAppExeName}\SupportedTypes"; ValueType: string; ValueName: ".myp"; ValueData: ""
-Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: {#MyAppName}; ValueData: "{app}\{#MyAppExeName} startup"; Flags: uninsdeletevalue; Tasks: startupicon
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: {#MyAppProjectName}; ValueData: "{app}\{#MyAppExeName} startup"; Flags: uninsdeletevalue; Tasks: startupicon
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -63,9 +58,6 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
-
-
-
 
 [Code]
 procedure ExitProcess(exitCode:integer);
